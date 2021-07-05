@@ -27,7 +27,7 @@
     >
       <v-card class="text-center mb-0" width="300">
         <v-card-text>
-          <strong class="mb-3 d-inline-block">SIDEBAR FILTERS</strong>
+          <strong class="mb-3 d-inline-block">رنگ بندی سایدبار</strong>
 
           <v-item-group v-model="color">
             <v-item v-for="item in colors" :key="item" :value="item">
@@ -46,7 +46,7 @@
           <v-divider class="my-4 secondary" />
 
           <v-row align="center" no-gutters>
-            <v-col cols="auto"> Dark Mode </v-col>
+            <v-col cols="auto"> نمای تاریک </v-col>
 
             <v-spacer />
 
@@ -63,7 +63,7 @@
           <v-divider class="my-4 secondary" />
 
           <v-row align="center" no-gutters>
-            <v-col cols="auto"> Sidebar Image </v-col>
+            <v-col cols="auto"> سایدبار با تصویر </v-col>
 
             <v-spacer />
 
@@ -79,7 +79,7 @@
 
           <v-divider class="my-4 secondary" />
 
-          <strong class="mb-3 d-inline-block">IMAGES</strong>
+          <strong class="mb-3 d-inline-block">تصاویر</strong>
 
           <v-item-group
             v-model="image"
@@ -198,3 +198,16 @@ export default {
 }
 </script>
 
+<style lang="sass">
+  .v-settings
+    .v-item-group > *
+      cursor: pointer
+
+    &__item
+      border-width: 3px
+      border-style: solid
+      border-color: transparent !important
+
+      &--active
+        border-color: #00cae3 !important
+</style>
