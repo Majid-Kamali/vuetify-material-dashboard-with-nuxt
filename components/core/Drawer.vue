@@ -3,17 +3,18 @@
     id="core-navigation-drawer"
     v-model="drawer"
     expand-on-hover
-    :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
+    :dark="getPersonalSetting.barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :right="$vuetify.rtl"
-    :src="barImage"
+    :src="getPersonalSetting.barImage"
     mobile-breakpoint="960"
     app
     width="260"
     v-bind="$attrs"
     permanent
   >
+    <!-- {{getPersonalSetting.barColor}} -->
     <template #img="props">
-      <v-img :gradient="`to bottom, ${barColor}`" v-bind="props" />
+      <v-img :gradient="`to bottom, ${getPersonalSetting.barColor}`" v-bind="props" />
     </template>
 
     <v-row class="py-4 px-1">
@@ -63,13 +64,11 @@
 
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: () => {
     return {
       expandOnHover: true,
-      barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
-      barImage:
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
       drawer: false,
       profile: {
         avatar: true,
@@ -112,6 +111,17 @@ export default {
           to: '/components/notifications',
         },
       ],
+    }
+  },
+    computed: {
+     // mix the getters into computed with object spread operator
+    ...mapGetters({
+      settingGetter :'setting/getPersonalSetting',
+      // ...
+    }),
+
+    getPersonalSetting() {
+      return this.settingGetter
     }
   },
 }

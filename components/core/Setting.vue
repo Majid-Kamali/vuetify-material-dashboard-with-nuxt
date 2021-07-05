@@ -30,11 +30,11 @@
           <strong class="mb-3 d-inline-block">SIDEBAR FILTERS</strong>
 
           <v-item-group v-model="color">
-            <v-item v-for="color in colors" :key="color" :value="color">
+            <v-item v-for="item in colors" :key="item" :value="item">
               <template #default="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
-                  :color="color"
+                  :color="item"
                   class="v-settings__item"
                   size="25"
                   @click="toggle"
@@ -86,9 +86,9 @@
             class="d-flex justify-space-between mb-3"
           >
             <v-item
-              v-for="image in images"
-              :key="image"
-              :value="image"
+              v-for="img in images"
+              :key="img"
+              :value="img"
               class="mx-1"
             >
               <template #default="{ active, toggle }">
@@ -97,7 +97,7 @@
                   class="d-inline-block v-settings__item"
                   @click="toggle"
                 >
-                  <v-img :src="image" height="100" width="50" />
+                  <v-img :src="img" height="100" width="50" />
                 </v-sheet>
               </template>
             </v-item>
@@ -133,7 +133,7 @@
           <div>
             <strong class="mb-3 d-inline-block">تنظیمات پنل مدیریت</strong>
           </div>
-         
+
         </v-card-text>
       </v-card>
     </v-menu>
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'DashboardCoreSettings',
 
@@ -160,15 +161,28 @@ export default {
     showImg: true,
     setBarImage: null,
     barImage:
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-  }),
+    'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+}),
+  computed: {
+     // mix the getters into computed with object spread operator
+    ...mapGetters({
+      settingGetter :'setting/getPersonalSetting',
+      // ...
+    }),
+
+
+
+    setPersonalSetting() {
+      return this.settingGetter
+    }
+  },
   watch: {
     color(val) {
       this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
     },
     showImg(val) {
       if (!val) {
-        this.saveImage = this.barImage
+        this.saveImage = this.setPersonalSetting.barImage
         this.setBarImage('')
       } else if (this.saveImage) {
         this.setBarImage(this.saveImage)
