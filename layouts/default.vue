@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <core-drawer />
     <core-app-bar />
     <core-view />
@@ -16,6 +16,8 @@ export default {
     CoreDrawer: Drawer,
     CoreView: View,
   },
-  data: () => ({ drawer: null }),
+  created() {
+    this.$vuetify.rtl = true
+  },
 }
 </script>

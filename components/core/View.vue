@@ -1,9 +1,18 @@
 <template>
-  <v-main class="grey lighten-3">
-    <v-container>
-      <v-row>
-        <nuxt />
-      </v-row>
-    </v-container>
+  <v-main>
+    <nuxt />
+    <dashboard-core-setting />
+    <dashboard-core-footer />
   </v-main>
 </template>
+
+<script>
+export default {
+  name: 'DashboardCoreView',
+
+  components: {
+    DashboardCoreFooter: () => import('./Footer'),
+     DashboardCoreSetting: () => import('./Setting.vue'),
+  },
+}
+</script>
