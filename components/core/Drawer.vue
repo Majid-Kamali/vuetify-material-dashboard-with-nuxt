@@ -6,7 +6,7 @@
       getPersonalSetting.barColor !==
       'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'
     "
-    :expand-on-hover="expandOnHover"
+    :expand-on-hover="getPersonalSetting.expandSideBar"
     :right="$vuetify.rtl"
     :src="getPersonalSetting.barImage"
     mobile-breakpoint="960"
@@ -70,12 +70,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: {
-    expandOnHover: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data: () => {
     return {
       profile: {
@@ -127,9 +121,15 @@ export default {
     ...mapGetters({
       settingGetter: 'setting/getPersonalSetting',
     }),
-
     getPersonalSetting() {
-      return this.settingGetter
+       return {
+          barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
+          barImage: this.$store.state.setting.barImage,
+          color: this.$store.state.setting.color,
+          mode: this.$store.state.setting.mode,
+          expandSideBar: this.$store.state.setting.expandSideBar,
+          drawer: false,
+        }
     },
     drawer: {
       get() {

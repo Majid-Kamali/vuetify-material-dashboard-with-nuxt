@@ -77,18 +77,19 @@
               />
             </v-col>
           </v-row>
-           <v-divider class="my-4 secondary" />
-           <v-row align="center" no-gutters>
+          <v-divider class="my-4 secondary" />
+          <v-row align="center" no-gutters>
             <v-col cols="auto"> حالت سایدبار </v-col>
 
             <v-spacer />
 
             <v-col cols="auto">
               <v-switch
-                v-model="expandOnHover"
+                :value="getPersonalSetting.expandSideBar"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
+                @change="toggleSidebar"
               />
             </v-col>
           </v-row>
@@ -101,12 +102,7 @@
             v-model="image"
             class="d-flex justify-space-between mb-3"
           >
-            <v-item
-              v-for="img in images"
-              :key="img"
-              :value="img"
-              class="mx-1"
-            >
+            <v-item v-for="img in images" :key="img" :value="img" class="mx-1">
               <template #default="{ active, toggle }">
                 <v-sheet
                   :class="active && 'v-settings__item--active'"
@@ -149,7 +145,6 @@
           <div>
             <strong class="mb-3 d-inline-block">تنظیمات پنل مدیریت</strong>
           </div>
-
         </v-card-text>
       </v-card>
     </v-menu>
@@ -162,7 +157,7 @@ export default {
   name: 'DashboardCoreSettings',
 
   data: () => ({
-    expandOnHover:true,
+    expandSideBar: true,
     color: '#00CAE3',
     colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#FF9800', '#E91E63', '#FF5252'],
     image:
@@ -178,15 +173,22 @@ export default {
     showImg: true,
     setBarImage: null,
     barImage:
-    'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
-}),
+      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+  }),
   computed: {
     ...mapGetters({
-      settingGetter :'setting/getPersonalSetting',
+      settingGetter: 'setting/getPersonalSetting',
     }),
     getPersonalSetting() {
-      return this.settingGetter
-    }
+      return {
+        barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
+        barImage: this.$store.state.setting.barImage,
+        color: this.$store.state.setting.color,
+        mode: this.$store.state.setting.mode,
+        expandSideBar: this.$store.state.setting.expandSideBar,
+        drawer: false,
+      }
+    },
   },
   watch: {
     color(val, oldVal) {
@@ -197,31 +199,41 @@ export default {
       this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
     },
     showImg(val) {
+     
       if (!val) {
         this.saveImage = this.getPersonalSetting.barImage
-        this.$sotre.dispatch('setting/saveBarImage', '')
+        this.$store.dispatch('setting/saveBarImage', '')
       } else if (this.saveImage) {
-        this.$sotre.dispatch('setting/saveBarImage', this.saveImage)
-        // this.setBarImage(this.saveImage)
+        this.$store.dispatch('setting/saveBarImage', this.saveImage)
         this.saveImage = ''
       } else {
-        // this.setBarImage(val)
-        this.$sotre.dispatch('setting/saveBarImage', val)
+        this.$store.dispatch('setting/saveBarImage', val)
       }
     },
     image(val) {
-      this.$sotre.dispatch('setting/saveBarImage', val)
-      // this.setBarImage(val)
+      this.$store.dispatch('setting/saveBarImage', val)
     },
   },
+  mounted(){
+    console.log(this.getPersonalSetting);
+  },
   methods: {
+    toggleSidebar() {
+      this.$store.dispatch(
+        'setting/saveExpandSidebar',
+        (this.getPersonalSetting.expandSideBar = !this.getPersonalSetting.expandSideBar)
+      )
+    },
     toggleMode() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       this.$store.dispatch('setting/saveMode', !this.$vuetify.theme.dark)
     },
     toggleSidebarImage() {
-      this.$store.dispatch('setting/saveSidebarImage', !this.getPersonalSetting.sidebarImage)
-    }
+      this.$store.dispatch(
+        'setting/saveSidebarImage',
+        !this.getPersonalSetting.sidebarImage
+      )
+    },
   }
 }
 </script>
@@ -237,5 +249,5 @@ export default {
       border-color: transparent !important
 
       &--active
-        border-color: #FFF !important
+        border-color: #00cae3 !important
 </style>

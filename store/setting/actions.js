@@ -1,19 +1,22 @@
-export function saveColor({commit}, color){
+export function saveColor({ commit }, color) {
   commit('saveColor', color)
 }
 
-export function saveBarImage({commit}, barImage){
+export function saveBarImage({ commit }, barImage) {
+
   commit('saveBarImage', barImage)
 }
 
-export function saveMode({commit}, mode){
+export function saveMode({ commit }, mode) {
   commit('saveMode', mode)
 }
 
-export function saveShowImg({commit}, showImg){
-  commit('saveShowImg', showImg)
+export function saveExpandSidebar({ commit }, expandSideBar) {
+
+  commit('saveExpandSidebar', expandSideBar)
+
 }
 
-export function setDrawer({commit}, drawer){
+export function setDrawer({ commit }, drawer) {
   commit('setDrawer', drawer)
 }

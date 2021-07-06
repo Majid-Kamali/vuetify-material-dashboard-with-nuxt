@@ -16,9 +16,9 @@
       color="grey"
       @click="setDrawer(!drawer)"
     >
-      <v-icon v-if="drawer"> mdi-view-quilt </v-icon>
+      <v-icon v-if="drawer" small> fas fa-list </v-icon>
 
-      <v-icon v-else> mdi-dots-vertical </v-icon>
+      <v-icon v-else small> mdi-dots-vertical </v-icon>
     </v-btn>
 
     <v-toolbar-title
