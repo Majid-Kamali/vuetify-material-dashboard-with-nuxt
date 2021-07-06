@@ -8,8 +8,15 @@
     height="50"
     class="px-auto"
   >
-    <v-btn class="mr-3" elevation="1" fab small color="grey">
-      <v-icon v-if="value"> mdi-view-quilt </v-icon>
+    <v-btn
+      class="mr-3"
+      elevation="1"
+      fab
+      small
+      color="grey"
+      @click="setDrawer(!drawer)"
+    >
+      <v-icon v-if="drawer"> mdi-view-quilt </v-icon>
 
       <v-icon v-else> mdi-dots-vertical </v-icon>
     </v-btn>
@@ -18,7 +25,6 @@
       class="hidden-sm-and-down grey--text subtitle-2 px-2"
       v-text="$route.name"
     />
-
     <v-spacer />
 
     <div class="mx-3" />
@@ -83,12 +89,12 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'DashboardCoreAppBar',
 
   data: () => ({
     dialog: false,
-    value: false,
     notifications: [
       'Mike John Responded to your email',
       'You have 5 new tasks',
@@ -97,10 +103,15 @@ export default {
       'Another one',
     ],
   }),
-  methods: {
-    onClick() {
-      // Perform an action
+  computed: {
+    drawer() {
+      return this.$store.state.setting.drawer
     },
+  },
+  methods: {
+    ...mapMutations({
+      setDrawer: 'setting/setDrawer',
+    }),
   },
 }
 </script>

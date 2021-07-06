@@ -46,7 +46,7 @@
           <v-divider class="my-4 secondary" />
 
           <v-row align="center" no-gutters>
-            <v-col cols="auto"> نمای تاریک </v-col>
+            <v-col cols="auto"> نمای قالب </v-col>
 
             <v-spacer />
 
@@ -70,6 +70,21 @@
             <v-col cols="auto">
               <v-switch
                 v-model="showImg"
+                class="ma-0 pa-0"
+                color="secondary"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+           <v-divider class="my-4 secondary" />
+           <v-row align="center" no-gutters>
+            <v-col cols="auto"> حالت سایدبار </v-col>
+
+            <v-spacer />
+
+            <v-col cols="auto">
+              <v-switch
+                v-model="expandOnHover"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
@@ -146,6 +161,7 @@ export default {
   name: 'DashboardCoreSettings',
 
   data: () => ({
+    expandOnHover:true,
     color: '#E91E63',
     colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#ff9800', '#E91E63', '#FF5252'],
     image:
@@ -164,14 +180,9 @@ export default {
     'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
 }),
   computed: {
-     // mix the getters into computed with object spread operator
     ...mapGetters({
       settingGetter :'setting/getPersonalSetting',
-      // ...
     }),
-
-
-
     setPersonalSetting() {
       return this.settingGetter
     }

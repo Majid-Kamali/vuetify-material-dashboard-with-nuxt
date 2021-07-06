@@ -2,7 +2,10 @@
   <v-navigation-drawer
     id="core-navigation-drawer"
     v-model="drawer"
-    :dark="getPersonalSetting.barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
+    :dark="
+      getPersonalSetting.barColor !==
+      'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'
+    "
     :expand-on-hover="expandOnHover"
     :right="$vuetify.rtl"
     :src="getPersonalSetting.barImage"
@@ -18,24 +21,21 @@
       />
     </template>
 
-   
-
     <v-row class="py-4 px-1">
       <v-list dense nav>
         <v-list-item>
-          <v-list-item-avatar class="align-self-center" color="white" contain>
-            <v-img
-              src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
-              max-height="30"
-            />
+          <v-list-item-avatar class="align-self-center" contain>
+            <v-img :src="profile.avatar" max-height="30" />
           </v-list-item-avatar>
 
           <v-list-item link>
             <v-list-item-content>
               <v-list-item-title class="subtitle-1">
-                برنامه نویس
+                {{ profile.title }}
               </v-list-item-title>
-              <v-list-item-subtitle>Majid@gmail.com</v-list-item-subtitle>
+              <v-list-item-subtitle>{{
+                profile.subtitle
+              }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list-item>
@@ -48,7 +48,7 @@
       <div />
 
       <v-list>
-        <v-list-item-group>
+        <v-list-item-group :color="getPersonalSetting.color">
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -70,13 +70,19 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  props: {
+    expandOnHover: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data: () => {
     return {
-      expandOnHover: true,
-      drawer: false,
       profile: {
-        avatar: true,
-        title: 'Admin',
+        avatar:
+          'https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico',
+        title: 'برنامه نویس',
+        subtitle: 'Majid@gmail.com',
       },
       items: [
         {
@@ -118,13 +124,20 @@ export default {
     }
   },
   computed: {
-
     ...mapGetters({
       settingGetter: 'setting/getPersonalSetting',
     }),
 
     getPersonalSetting() {
       return this.settingGetter
+    },
+    drawer: {
+      get() {
+        return this.$store.state.setting.drawer
+      },
+      set(val) {
+        this.$store.commit('setting/setDrawer', val)
+      },
     },
   },
 }
