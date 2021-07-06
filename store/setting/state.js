@@ -4,7 +4,7 @@ export default function () {
     barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
     color:'blue-grey lighten-4',
     mode:false,
-    sidebarImage: true,
+    showImg: true,
     drawer: null,
   }
 }

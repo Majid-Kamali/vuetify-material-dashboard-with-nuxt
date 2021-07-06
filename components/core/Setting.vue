@@ -52,10 +52,11 @@
 
             <v-col cols="auto">
               <v-switch
-                v-model="$vuetify.theme.dark"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
+                :value="getPersonalSetting.mode"
+                @change="toggleMode"
               />
             </v-col>
           </v-row>
@@ -63,7 +64,7 @@
           <v-divider class="my-4 secondary" />
 
           <v-row align="center" no-gutters>
-            <v-col cols="auto"> سایدبار با تصویر </v-col>
+            <v-col cols="auto">تصویر سایدبار</v-col>
 
             <v-spacer />
 
@@ -162,8 +163,8 @@ export default {
 
   data: () => ({
     expandOnHover:true,
-    color: '#E91E63',
-    colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#ff9800', '#E91E63', '#FF5252'],
+    color: '#00CAE3',
+    colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#FF9800', '#E91E63', '#FF5252'],
     image:
       'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
     images: [
@@ -183,29 +184,45 @@ export default {
     ...mapGetters({
       settingGetter :'setting/getPersonalSetting',
     }),
-    setPersonalSetting() {
+    getPersonalSetting() {
       return this.settingGetter
     }
   },
   watch: {
-    color(val) {
+    color(val, oldVal) {
+      if (val === undefined) {
+        val = oldVal
+      }
+      this.$store.dispatch('setting/saveColor', val)
       this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
     },
     showImg(val) {
       if (!val) {
-        this.saveImage = this.setPersonalSetting.barImage
-        this.setBarImage('')
+        this.saveImage = this.getPersonalSetting.barImage
+        this.$sotre.dispatch('setting/saveBarImage', '')
       } else if (this.saveImage) {
-        this.setBarImage(this.saveImage)
+        this.$sotre.dispatch('setting/saveBarImage', this.saveImage)
+        // this.setBarImage(this.saveImage)
         this.saveImage = ''
       } else {
-        this.setBarImage(val)
+        // this.setBarImage(val)
+        this.$sotre.dispatch('setting/saveBarImage', val)
       }
     },
     image(val) {
-      this.setBarImage(val)
+      this.$sotre.dispatch('setting/saveBarImage', val)
+      // this.setBarImage(val)
     },
   },
+  methods: {
+    toggleMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.$store.dispatch('setting/saveMode', !this.$vuetify.theme.dark)
+    },
+    toggleSidebarImage() {
+      this.$store.dispatch('setting/saveSidebarImage', !this.getPersonalSetting.sidebarImage)
+    }
+  }
 }
 </script>
 
@@ -220,5 +237,5 @@ export default {
       border-color: transparent !important
 
       &--active
-        border-color: #00cae3 !important
+        border-color: #FFF !important
 </style>

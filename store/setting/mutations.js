@@ -1,12 +1,21 @@
-export function savePersonalsetting(state, data) {
+export function saveColor(state, color) {
 
-  state.barColor = data.barColor;
-  state.barImage = data.barImage;
-  state.mode = data.mode;
-  state.sidebarImage = data.sidebarImage;
+  state.color = color;
 
-  // localStorage.setItem('roles', data.roles);
-  // localStorage.setItem('permissions', data.permissions);
+}
+export function saveBarImage(state, barImage) {
+
+  state.barImage = barImage;
+
+}
+export function saveMode(state, mode) {
+
+  state.mode = mode;
+
+}
+export function saveShowImg(state, showImg) {
+
+  state.showImg = showImg;
 
 }
 export function setDrawer(state, payload) {
