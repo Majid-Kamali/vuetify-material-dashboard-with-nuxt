@@ -14,7 +14,7 @@
       fab
       small
       color="grey"
-      @click="setDrawer(!drawer)"
+      @click="SET_Drawer(!drawer)"
     >
       <v-icon v-if="drawer" small> fas fa-list </v-icon>
 
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setDrawer: 'setting/setDrawer',
+      SET_Drawer: 'setting/SET_Drawer',
     }),
   },
 }

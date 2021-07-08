@@ -1,4 +1,4 @@
-# online-market
+# vuetify-material-dashboard-with-nuxt  
 
 ## Build Setup
 

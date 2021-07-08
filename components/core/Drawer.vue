@@ -3,12 +3,12 @@
     id="core-navigation-drawer"
     v-model="drawer"
     :dark="
-      getPersonalSetting.barColor !==
+      setting.barColor !==
       'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'
     "
-    :expand-on-hover="getPersonalSetting.expandSideBar"
+    :expand-on-hover="setting.expandSideBar"
     :right="$vuetify.rtl"
-    :src="getPersonalSetting.barImage"
+    :src="setting.barImage"
     mobile-breakpoint="960"
     app
     width="260"
@@ -16,7 +16,7 @@
   >
     <template #img="props">
       <v-img
-        :gradient="`to bottom, ${getPersonalSetting.barColor}`"
+        :gradient="`to bottom, ${setting.barColor}`"
         v-bind="props"
       />
     </template>
@@ -27,13 +27,12 @@
           <v-list-item-avatar class="align-self-center" contain>
             <v-img :src="profile.avatar" max-height="30" />
           </v-list-item-avatar>
-
           <v-list-item link>
             <v-list-item-content>
               <v-list-item-title class="subtitle-1">
-                {{ profile.title }}
+                {{ profile.title }} 
               </v-list-item-title>
-              <v-list-item-subtitle>{{
+              <v-list-item-subtitle> {{
                 profile.subtitle
               }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -46,9 +45,9 @@
 
     <v-list expand nav>
       <div />
-
+     
       <v-list>
-        <v-list-item-group :color="getPersonalSetting.color">
+        <v-list-item-group :color="setting.color">
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -67,11 +66,17 @@
 
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters , mapState } from 'vuex'
 
 export default {
   data: () => {
     return {
+      setting:{
+        barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
+        barImage: process.browser ? localStorage.getItem('seting-barImage') : 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+        color: process.browser ? localStorage.getItem('seting-color') : 'grey lighten-4',
+        expandSideBar: process.browser ? (localStorage.getItem('seting-expand-sidebar')==='true') : false,
+      },
       profile: {
         avatar:
           'https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico',
@@ -118,28 +123,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      settingGetter: 'setting/getPersonalSetting',
-    }),
-    getPersonalSetting() {
-       return {
-          barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
-          barImage: this.$store.state.setting.barImage,
-          color: this.$store.state.setting.color,
-          mode: this.$store.state.setting.mode,
-          expandSideBar: this.$store.state.setting.expandSideBar,
-          drawer: false,
-        }
-    },
-    drawer: {
+    // ...mapState({ settings: state => state.setting }),
+    // ...mapGetters({settingGetter: 'setting/settingGetter'}),
+   drawer: {
       get() {
-        return this.$store.state.setting.drawer
+        return this.$store.state.setting.drawer;
       },
       set(val) {
-        this.$store.commit('setting/setDrawer', val)
+        this.$store.commit("setting/SET_Drawer", val);
       },
     },
   },
+  mounted(){
+   
+  }
 }
 </script>
 

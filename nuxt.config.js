@@ -2,8 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
-
+  target: 'server',
+  ssr:true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - online-market',
@@ -49,6 +49,8 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    //https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt
+    'cookie-universal-nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

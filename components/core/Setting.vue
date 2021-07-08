@@ -8,9 +8,11 @@
       flat
       link
       min-width="100"
-      style="position: fixed; top: 115px; left: -35px; border-radius: 8px"
+      style="position: fixed; top: 115px; left: -35px; border-radius: 8px;"
     >
-      <v-icon large> fa fa-cog </v-icon>
+      <v-icon large>
+       fa fa-cog
+      </v-icon>
     </v-card>
 
     <v-menu
@@ -22,19 +24,26 @@
       left
       nudge-left="8"
       offset-x
-      origin="top right"
+      origin="top left"
       transition="scale-transition"
     >
-      <v-card class="text-center mb-0" width="300">
+      <v-card
+        class="text-center mb-0"
+        width="300"
+      >
         <v-card-text>
-          <strong class="mb-3 d-inline-block">رنگ بندی سایدبار</strong>
+          <strong class="mb-3 d-inline-block">سایدبار تم</strong>
 
           <v-item-group v-model="color">
-            <v-item v-for="item in colors" :key="item" :value="item">
+            <v-item
+              v-for="color in colors"
+              :key="color"
+              :value="color"
+            >
               <template #default="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
-                  :color="item"
+                  :color="color"
                   class="v-settings__item"
                   size="25"
                   @click="toggle"
@@ -45,26 +54,35 @@
 
           <v-divider class="my-4 secondary" />
 
-          <v-row align="center" no-gutters>
-            <v-col cols="auto"> نمای قالب </v-col>
+          <v-row
+            align="center"
+            no-gutters
+          >
+            <v-col cols="auto">
+              نمای قالب
+            </v-col>
 
             <v-spacer />
 
             <v-col cols="auto">
               <v-switch
+                v-model="mode"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
-                :value="getPersonalSetting.mode"
-                @change="toggleMode"
               />
             </v-col>
           </v-row>
 
           <v-divider class="my-4 secondary" />
 
-          <v-row align="center" no-gutters>
-            <v-col cols="auto">تصویر سایدبار</v-col>
+          <v-row
+            align="center"
+            no-gutters
+          >
+            <v-col cols="auto">
+              تصویر سایدبار
+            </v-col>
 
             <v-spacer />
 
@@ -77,23 +95,23 @@
               />
             </v-col>
           </v-row>
+
           <v-divider class="my-4 secondary" />
-          <v-row align="center" no-gutters>
+           <v-row align="center" no-gutters>
             <v-col cols="auto"> حالت سایدبار </v-col>
 
             <v-spacer />
 
             <v-col cols="auto">
               <v-switch
-                :value="getPersonalSetting.expandSideBar"
+                v-model="expandSideBar"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
-                @change="toggleSidebar"
+                
               />
             </v-col>
           </v-row>
-
           <v-divider class="my-4 secondary" />
 
           <strong class="mb-3 d-inline-block">تصاویر</strong>
@@ -102,14 +120,23 @@
             v-model="image"
             class="d-flex justify-space-between mb-3"
           >
-            <v-item v-for="img in images" :key="img" :value="img" class="mx-1">
+            <v-item
+              v-for="image in images"
+              :key="image"
+              :value="image"
+              class="mx-1"
+            >
               <template #default="{ active, toggle }">
                 <v-sheet
                   :class="active && 'v-settings__item--active'"
                   class="d-inline-block v-settings__item"
                   @click="toggle"
                 >
-                  <v-img :src="img" height="100" width="50" />
+                  <v-img
+                    :src="image"
+                    height="100"
+                    width="50"
+                  />
                 </v-sheet>
               </template>
             </v-item>
@@ -124,7 +151,7 @@
             rel="noopener"
             target="_blank"
           >
-            تنظیمات
+            Free Download
           </v-btn>
 
           <v-btn
@@ -137,14 +164,36 @@
             rel="noopener"
             target="_blank"
           >
-            مشاهده سایت
+            Documentation
           </v-btn>
 
           <div class="my-12" />
 
           <div>
-            <strong class="mb-3 d-inline-block">تنظیمات پنل مدیریت</strong>
+            <strong class="mb-3 d-inline-block">THANK YOU FOR SHARING!</strong>
           </div>
+
+          <v-btn
+            class="ma-1"
+            color="#55acee"
+            dark
+            default
+            rounded
+          >
+            <v-icon>mdi-twitter</v-icon>
+            - 45
+          </v-btn>
+
+          <v-btn
+            class="ma-1"
+            color="#3b5998"
+            dark
+            default
+            rounded
+          >
+            <v-icon>mdi-facebook</v-icon>
+            - 50
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-menu>
@@ -152,90 +201,90 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {  mapState } from 'vuex'
+
 export default {
   name: 'DashboardCoreSettings',
-
-  data: () => ({
-    expandSideBar: true,
-    color: '#00CAE3',
-    colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#FF9800', '#E91E63', '#FF5252'],
-    image:
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-    images: [
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-2.jpg',
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
-    ],
-    menu: false,
-    saveImage: '',
-    showImg: true,
-    setBarImage: null,
-    barImage:
-      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
-  }),
-  computed: {
-    ...mapGetters({
-      settingGetter: 'setting/getPersonalSetting',
+ 
+ data: () => ({
+      color: '#E91E63',
+      colors: [
+        '#9C27b0',
+        '#00CAE3',
+        '#4CAF50',
+        '#ff9800',
+        '#E91E63',
+        '#FF5252',
+      ],
+      image: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
+      images: [
+        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
+        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-2.jpg',
+        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
+        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+      ],
+      menu: false,
+      saveImage: '',
+      showImg: true,
+      expandSideBar: true,
+      mode: true
     }),
-    getPersonalSetting() {
-      return {
-        barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
-        barImage: this.$store.state.setting.barImage,
-        color: this.$store.state.setting.color,
-        mode: this.$store.state.setting.mode,
-        expandSideBar: this.$store.state.setting.expandSideBar,
-        drawer: false,
+    computed: {
+      ...mapState(['barImage']),
+    },
+    watch: {
+      color (val, oldVal) {
+        if (val === undefined) {
+          val = oldVal
+        }
+        this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
+        this.$store.dispatch('setting/Save_Color', val)
+      },
+      showImg (val) {
+       
+        if (!val) {
+
+          this.saveImage = this.barImage
+          this.$store.dispatch('setting/Save_BarImage', '')
+          
+        } else if (this.saveImage) {
+
+          this.$store.dispatch('setting/Save_BarImage', this.saveImage)
+          this.saveImage = ''
+
+        } else {
+        
+          this.$store.dispatch('setting/Save_BarImage', val)
+
+        }
+      },
+      image (val) {
+      
+        this.$store.dispatch('setting/Save_BarImage', val)
+        
+      },
+      expandSideBar(val, oldVal){
+         if (val === undefined) {
+          val = oldVal
+        }
+        this.$store.dispatch('setting/Save_Expand_Sidebar', val)
+      },
+      mode(val){
+       
+        this.$vuetify.theme.dark = val 
+        this.$store.dispatch('setting/Save_Mode', val)
+       
       }
     },
-  },
-  watch: {
-    color(val, oldVal) {
-      if (val === undefined) {
-        val = oldVal
+    mounted(){
+
+      if(process.browser){
+          this.mode = localStorage.getItem("seting-mode");
       }
-      this.$store.dispatch('setting/saveColor', val)
-      this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
+   
     },
-    showImg(val) {
-     
-      if (!val) {
-        this.saveImage = this.getPersonalSetting.barImage
-        this.$store.dispatch('setting/saveBarImage', '')
-      } else if (this.saveImage) {
-        this.$store.dispatch('setting/saveBarImage', this.saveImage)
-        this.saveImage = ''
-      } else {
-        this.$store.dispatch('setting/saveBarImage', val)
-      }
-    },
-    image(val) {
-      this.$store.dispatch('setting/saveBarImage', val)
-    },
-  },
-  mounted(){
-    console.log(this.getPersonalSetting);
-  },
-  methods: {
-    toggleSidebar() {
-      this.$store.dispatch(
-        'setting/saveExpandSidebar',
-        (this.getPersonalSetting.expandSideBar = !this.getPersonalSetting.expandSideBar)
-      )
-    },
-    toggleMode() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
-      this.$store.dispatch('setting/saveMode', !this.$vuetify.theme.dark)
-    },
-    toggleSidebarImage() {
-      this.$store.dispatch(
-        'setting/saveSidebarImage',
-        !this.getPersonalSetting.sidebarImage
-      )
-    },
+    
   }
-}
 </script>
 
 <style lang="sass">
@@ -249,5 +298,6 @@ export default {
       border-color: transparent !important
 
       &--active
-        border-color: #00cae3 !important
+        border-color: #FFF !important
 </style>
+
