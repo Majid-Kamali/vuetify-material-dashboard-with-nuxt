@@ -3,12 +3,12 @@
     id="core-navigation-drawer"
     v-model="drawer"
     :dark="
-      setting.barColor !==
+      setSetting.barColor !==
       'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'
     "
-    :expand-on-hover="setting.expandSideBar"
+    :expand-on-hover="setSetting.expandSideBar"
     :right="$vuetify.rtl"
-    :src="setting.barImage"
+    :src="setSetting.barImage"
     mobile-breakpoint="960"
     app
     width="260"
@@ -16,7 +16,7 @@
   >
     <template #img="props">
       <v-img
-        :gradient="`to bottom, ${setting.barColor}`"
+        :gradient="`to bottom, ${setSetting.barColor}`"
         v-bind="props"
       />
     </template>
@@ -47,7 +47,7 @@
       <div />
      
       <v-list>
-        <v-list-item-group :color="setting.color">
+        <v-list-item-group :color="setSetting.color">
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -66,17 +66,12 @@
 
 
 <script>
-// import { mapGetters , mapState } from 'vuex'
-
+import { mapState  } from 'vuex'
+// import { mapGetters  } from 'vuex'
 export default {
+  
   data: () => {
     return {
-      setting:{
-        barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
-        barImage: process.browser ? localStorage.getItem('seting-barImage') : 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
-        color: process.browser ? localStorage.getItem('seting-color') : 'grey lighten-4',
-        expandSideBar: process.browser ? (localStorage.getItem('seting-expand-sidebar')==='true') : false,
-      },
       profile: {
         avatar:
           'https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico',
@@ -123,8 +118,16 @@ export default {
     }
   },
   computed: {
-    // ...mapState({ settings: state => state.setting }),
-    // ...mapGetters({settingGetter: 'setting/settingGetter'}),
+  ...mapState({ settings: state => state.setting }),
+  // ...mapGetters({settingGetter: 'setting/settingGetter'}),
+  setSetting(){
+      return {
+        barColor:this.settings.barColor,
+        barImage:this.settings.barImage,
+        color:this.settings.color,
+        expandSideBar:this.settings.expandSideBar
+      }
+  },
    drawer: {
       get() {
         return this.$store.state.setting.drawer;
@@ -134,9 +137,23 @@ export default {
       },
     },
   },
-  mounted(){
+  watch:{
    
-  }
+  },
+  updated() {
+        
+
+  },
+  mounted(){
+       if(process.browser){
+          this.mode = localStorage.getItem("seting-mode");
+      }
+    
+  },
+  methods:{
+  
+  },
+
 }
 </script>
 

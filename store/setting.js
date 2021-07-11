@@ -2,14 +2,14 @@ export const state = () => ({
    
     barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
     barImage: process.browser
-      ? localStorage.getItem('seting-barImage')
-      : 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+      ? localStorage.getItem('setting-barImage')
+      : 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
     color: process.browser
-      ? localStorage.getItem('seting-color')
-      : 'grey lighten-4',
-    mode: process.browser ? localStorage.getItem('seting-mode') : false,
+      ? localStorage.getItem('setting-color')
+      : '',
+    mode: process.browser ? localStorage.getItem('setting-mode') : false,
     expandSideBar: process.browser
-      ? localStorage.getItem('seting-expand-sidebar')
+      ? localStorage.getItem('setting-expand-sidebar')
       : false,
     drawer: null,
     
@@ -21,36 +21,36 @@ export const mutations = {
       console.log('mutations barImage',barImage);
     state.barImage = barImage
     if (process.browser) {
-      localStorage.setItem('seting-barImage', barImage)
+      localStorage.setItem('setting-barImage', barImage)
     }else{
-        this.$cookies.set('seting-barImage', barImage)
+        this.$cookies.set('setting-barImage', barImage)
     }
   },
   Save_Mode(state, mode) {
     console.log('mutations mode',mode);
     state.mode = mode
     if (process.browser) {
-      localStorage.setItem('seting-mode', mode)
+      localStorage.setItem('setting-mode', mode)
     }else{
-        this.$cookies.set('seting-mode', mode)
+        this.$cookies.set('setting-mode', mode)
     }
   },
   Save_Expand_Sidebar(state, expandSideBar) {
     console.log('mutations expandSideBar',expandSideBar);
     state.expandSideBar = expandSideBar
     if (process.browser) {
-      localStorage.setItem('seting-expand-sidebar', expandSideBar)
+      localStorage.setItem('setting-expand-sidebar', expandSideBar)
     }else{
-        this.$cookies.set('seting-expand-sidebar', expandSideBar)
+        this.$cookies.set('setting-expand-sidebar', expandSideBar)
     }
   },
   Save_Color(state, color) {
     console.log('mutations color',color);
     state.color = color
     if (process.browser) {
-        localStorage.setItem('seting-color', color)
+        localStorage.setItem('setting-color', color)
     }else{
-        this.$cookies.set('seting-color', color)
+        this.$cookies.set('setting-color', color)
     }
   },
   SET_BAR_IMAGE (state, payload) {
@@ -84,5 +84,8 @@ export const actions = {
 }
 
 export const getters = {
-  getPersonalSetting: state => state
+  settingGetter: state => state,
+  SWITCH_DARK(state) {
+    state.darkMode = !state.darkMode
+  },
 }

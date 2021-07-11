@@ -36,14 +36,14 @@
 
           <v-item-group v-model="color">
             <v-item
-              v-for="color in colors"
-              :key="color"
-              :value="color"
+              v-for="col in colors"
+              :key="col"
+              :value="col"
             >
               <template #default="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
-                  :color="color"
+                  :color="col"
                   class="v-settings__item"
                   size="25"
                   @click="toggle"
@@ -51,9 +51,11 @@
               </template>
             </v-item>
           </v-item-group>
-
+        
+          
+         
           <v-divider class="my-4 secondary" />
-
+        
           <v-row
             align="center"
             no-gutters
@@ -121,9 +123,9 @@
             class="d-flex justify-space-between mb-3"
           >
             <v-item
-              v-for="image in images"
-              :key="image"
-              :value="image"
+              v-for="img in images"
+              :key="img"
+              :value="img"
               class="mx-1"
             >
               <template #default="{ active, toggle }">
@@ -133,7 +135,7 @@
                   @click="toggle"
                 >
                   <v-img
-                    :src="image"
+                    :src="img"
                     height="100"
                     width="50"
                   />
@@ -151,7 +153,7 @@
             rel="noopener"
             target="_blank"
           >
-            Free Download
+           تنظیمات
           </v-btn>
 
           <v-btn
@@ -164,36 +166,16 @@
             rel="noopener"
             target="_blank"
           >
-            Documentation
+           پروفایل کاربری
           </v-btn>
 
           <div class="my-12" />
 
           <div>
-            <strong class="mb-3 d-inline-block">THANK YOU FOR SHARING!</strong>
+            <strong class="mb-3 d-inline-block">تنظیمات قالب پنل مدیریت</strong>
           </div>
 
-          <v-btn
-            class="ma-1"
-            color="#55acee"
-            dark
-            default
-            rounded
-          >
-            <v-icon>mdi-twitter</v-icon>
-            - 45
-          </v-btn>
-
-          <v-btn
-            class="ma-1"
-            color="#3b5998"
-            dark
-            default
-            rounded
-          >
-            <v-icon>mdi-facebook</v-icon>
-            - 50
-          </v-btn>
+         
         </v-card-text>
       </v-card>
     </v-menu>
@@ -201,7 +183,7 @@
 </template>
 
 <script>
-import {  mapState } from 'vuex'
+import {  mapState , mapGetters  } from 'vuex'
 
 export default {
   name: 'DashboardCoreSettings',
@@ -227,10 +209,12 @@ export default {
       saveImage: '',
       showImg: true,
       expandSideBar: true,
-      mode: true
+      mode:true,
     }),
     computed: {
       ...mapState(['barImage']),
+      ...mapGetters({settingGetter: 'setting/settingGetter'}),
+       
     },
     watch: {
       color (val, oldVal) {
@@ -270,20 +254,13 @@ export default {
         this.$store.dispatch('setting/Save_Expand_Sidebar', val)
       },
       mode(val){
-       
-        this.$vuetify.theme.dark = val 
+        this.$vuetify.theme.dark = true 
         this.$store.dispatch('setting/Save_Mode', val)
-       
       }
     },
     mounted(){
-
-      if(process.browser){
-          this.mode = localStorage.getItem("seting-mode");
-      }
-   
+      this.$vuetify.theme.dark = localStorage.getItem('setting-mode')==='true' 
     },
-    
   }
 </script>
 
