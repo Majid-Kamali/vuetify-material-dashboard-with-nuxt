@@ -76,7 +76,7 @@ export default {
     return {
       profile: {
         avatar:
-          'https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico',
+          './setting/favicon.ico',
         title: 'برنامه نویس',
         subtitle: 'Majid@gmail.com',
       },
@@ -121,7 +121,7 @@ export default {
   },
   computed: {
   // ...mapState({ settings: state => state.setting }),
-  ...mapGetters({settings: 'setting/settingGetter'}),
+  ...mapGetters({settings: 'setting/SETTING_GETTER'}),
   setSetting(){
       return {
         barColor:this.settings.barColor,
@@ -140,7 +140,7 @@ export default {
         return this.$store.state.setting.drawer;
       },
       set(val) {
-        this.$store.commit("setting/SET_Drawer", val);
+        this.$store.commit("setting/SET_DRAWER", val);
       },
     },
   },

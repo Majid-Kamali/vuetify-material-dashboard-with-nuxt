@@ -210,12 +210,12 @@ export default {
         '#E91E63',
         '#FF5252',
       ],
-      image: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
+      image: './setting/sidebar-1.jpg',
       images: [
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-2.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
+        './setting/sidebar-1.jpg',
+        './setting/sidebar-2.jpg',
+        './setting/sidebar-3.jpg',
+        './setting/sidebar-4.jpg',
       ],
       menu: false,
       saveImage: '',
@@ -225,10 +225,10 @@ export default {
     }),
     computed: {
       ...mapState(['barImage']),
-      ...mapGetters({settingGetter: 'setting/settingGetter'}),
+      ...mapGetters({SETTING_GETTER: 'setting/SETTING_GETTER'}),
 
       getSetting() {
-        return this.settingGetter
+        return this.SETTING_GETTER
       }
 
     },
@@ -238,26 +238,26 @@ export default {
           val = oldVal
         }
         this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
-        this.$store.dispatch('setting/Save_Color', val)
+        this.$store.dispatch('setting/SAVE_COLOR', val)
       },
       showImage (val) {
 
-        this.$store.dispatch('setting/Save_ShowImage', val)
+        this.$store.dispatch('setting/SAVE_SHOWIMAGE', val)
 
       },
       image (val) {
-        this.$store.dispatch('setting/Save_BarImage', val)
+        this.$store.dispatch('setting/SAVE_BARIMAGE', val)
 
       },
       expandSideBar(val, oldVal){
          if (val === undefined) {
           val = oldVal
         }
-        this.$store.dispatch('setting/Save_Expand_Sidebar', val)
+        this.$store.dispatch('setting/SAVE_EXPAND_SIDEBAR', val)
       },
       mode(val){
         this.$vuetify.theme.dark = val
-        this.$store.dispatch('setting/Save_Mode', val)
+        this.$store.dispatch('setting/SAVE_MODE', val)
       }
     },
     mounted(){
