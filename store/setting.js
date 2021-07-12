@@ -4,9 +4,7 @@ export const state = () => ({
     barImage: process.browser
       ? localStorage.getItem('setting-barImage')
       : './setting/sidebar-1.jpg',
-    color: process.browser
-      ? localStorage.getItem('setting-color')
-      : '#9C27b0',
+    color: process.client ? localStorage.getItem('setting-color') : '#9C27b0',
     mode: process.client ? localStorage.getItem('setting-mode') : true,
     expandSideBar: process.client
       ? localStorage.getItem('setting-expand-sidebar')
@@ -19,7 +17,7 @@ export const state = () => ({
 
 export const mutations = {
   SAVE_BARIMAGE(state, barImage) {
-    state.barImage = barImage || './setting/sidebar-1.jpg'
+    state.barImage = barImage 
     if (process.browser) {
       localStorage.setItem('setting-barImage', barImage ||
       './setting/sidebar-1.jpg')
@@ -28,33 +26,33 @@ export const mutations = {
     }
   },
   SAVE_SHOWIMAGE(state, showImage) {
-    state.showImage = showImage || true
+    state.showImage = showImage 
     if (process.browser) {
-      localStorage.setItem('setting-showImage', showImage || true)
+      localStorage.setItem('setting-showImage', showImage)
     }else{
         this.$cookies.set('setting-showImage', showImage)
     }
   },
-  SAVE_MODE(state, mode) {
-    state.mode = mode || true
+  SAVE_MODE(state, mode) {console.log('SAVE_MODE',mode);
+    state.mode = mode 
     if (process.browser) {
-      localStorage.setItem('setting-mode', mode || true)
+      localStorage.setItem('setting-mode', mode )
     }else{
         this.$cookies.set('setting-mode', mode)
     }
   },
   SAVE_EXPAND_SIDEBAR(state, expandSideBar) {
-    state.expandSideBar = expandSideBar || true
+    state.expandSideBar = expandSideBar 
     if (process.browser) {
-      localStorage.setItem('setting-expand-sidebar', expandSideBar || true)
+      localStorage.setItem('setting-expand-sidebar', expandSideBar)
     }else{
         this.$cookies.set('setting-expand-sidebar', expandSideBar)
     }
   },
-  SAVE_COLOR(state, color) {
-    state.color = color || '#9C27b0'
+  SAVE_COLOR(state, color) {console.log('SAVE_COLOR',color);
+    state.color = color 
     if (process.browser) {
-        localStorage.setItem('setting-color', color || '#9C27b0')
+        localStorage.setItem('setting-color', color )
     }else{
         this.$cookies.set('setting-color', color)
     }

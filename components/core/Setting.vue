@@ -261,12 +261,44 @@ export default {
       }
     },
     mounted(){
-      this.expandSideBar = localStorage.getItem('setting-expand-sidebar') === 'true'
-      this.mode = localStorage.getItem('setting-mode')==='true'
-      this.showImage = localStorage.getItem('setting-showImage') === 'true'
-      this.color = localStorage.getItem('setting-color')
-      this.image = localStorage.getItem('setting-barImage')
-      this.$vuetify.theme.dark = localStorage.getItem('setting-mode')==='true'
+        this.LocalstorageKeyExists()
+    },
+    methods:{
+      LocalstorageKeyExists(){
+
+        if (localStorage.getItem('setting-color')===null) {
+          this.color = '#9C27b0'
+        }else{
+          this.color = localStorage.getItem('setting-color')
+        }
+
+        if (localStorage.getItem('setting-expand-sidebar')===null) {
+          this.expandSideBar = true
+        }else{
+          this.expandSideBar = localStorage.getItem('setting-expand-sidebar') === 'true'
+        }
+
+        if (localStorage.getItem('setting-mode')===null) {
+          this.mode = true
+          this.$vuetify.theme.dark = true
+        }else{
+          this.mode = localStorage.getItem('setting-mode')==='true'
+          this.$vuetify.theme.dark = localStorage.getItem('setting-mode')==='true'
+        }
+
+        if (localStorage.getItem('setting-showImage')===null) {
+          this.showImage = true
+        }else{
+          this.showImage = localStorage.getItem('setting-showImage') === 'true'
+        }
+
+        if (localStorage.getItem('setting-barImage')===null) {
+          this.image = './setting/sidebar-1.jpg'
+        }else{
+          this.image = localStorage.getItem('setting-barImage')
+        }
+
+      }
     }
   }
 </script>
