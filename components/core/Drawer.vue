@@ -8,12 +8,14 @@
     "
     :expand-on-hover="setSetting.expandSideBar"
     :right="$vuetify.rtl"
-    :src="setSetting.barImage"
+    :src="imageSrc"
     mobile-breakpoint="960"
     app
+    mini-variant-width="80"
     width="260"
     v-bind="$attrs"
   >
+
     <template #img="props">
       <v-img
         :gradient="`to bottom, ${setSetting.barColor}`"
@@ -21,7 +23,7 @@
       />
     </template>
 
-    <v-row class="py-4 px-1">
+    <v-row class="py-4 px-3">
       <v-list dense nav>
         <v-list-item>
           <v-list-item-avatar class="align-self-center" contain>
@@ -30,7 +32,7 @@
           <v-list-item link>
             <v-list-item-content>
               <v-list-item-title class="subtitle-1">
-                {{ profile.title }} 
+                {{ profile.title }}
               </v-list-item-title>
               <v-list-item-subtitle> {{
                 profile.subtitle
@@ -45,7 +47,7 @@
 
     <v-list expand nav>
       <div />
-     
+
       <v-list>
         <v-list-item-group :color="setSetting.color">
           <v-list-item v-for="(item, i) in items" :key="i">
@@ -66,10 +68,10 @@
 
 
 <script>
-import { mapState  } from 'vuex'
-// import { mapGetters  } from 'vuex'
+// import { mapState  } from 'vuex'
+import { mapGetters  } from 'vuex'
 export default {
-  
+
   data: () => {
     return {
       profile: {
@@ -118,17 +120,22 @@ export default {
     }
   },
   computed: {
-  ...mapState({ settings: state => state.setting }),
-  // ...mapGetters({settingGetter: 'setting/settingGetter'}),
+  // ...mapState({ settings: state => state.setting }),
+  ...mapGetters({settings: 'setting/settingGetter'}),
   setSetting(){
       return {
         barColor:this.settings.barColor,
         barImage:this.settings.barImage,
+        showImage:this.settings.showImage,
         color:this.settings.color,
-        expandSideBar:this.settings.expandSideBar
+        expandSideBar: this.settings.expandSideBar,
       }
+        // console.log('after this.settings.expandSideBar', this.settings.expandSideBar)
   },
-   drawer: {
+  imageSrc() {
+    return this.setSetting.showImage === false ? this.settings.barColor : this.setSetting.barImage
+  },
+  drawer: {
       get() {
         return this.$store.state.setting.drawer;
       },
@@ -138,20 +145,20 @@ export default {
     },
   },
   watch:{
-   
+
   },
   updated() {
-        
+
 
   },
   mounted(){
        if(process.browser){
-          this.mode = localStorage.getItem("seting-mode");
+        this.mode = localStorage.getItem("seting-mode");
       }
-    
+
   },
   methods:{
-  
+
   },
 
 }

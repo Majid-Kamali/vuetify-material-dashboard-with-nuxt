@@ -1,54 +1,60 @@
 export const state = () => ({
-   
+
     barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
     barImage: process.browser
       ? localStorage.getItem('setting-barImage')
       : 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
     color: process.browser
       ? localStorage.getItem('setting-color')
-      : '',
-    mode: process.browser ? localStorage.getItem('setting-mode') : false,
-    expandSideBar: process.browser
+      : '#9C27b0',
+    mode: process.client ? localStorage.getItem('setting-mode') : true,
+    expandSideBar: process.client
       ? localStorage.getItem('setting-expand-sidebar')
-      : false,
+      : true,
     drawer: null,
-    
-  
+    showImage: process.client
+    ? localStorage.getItem('setting-showImage')
+    : true,
 })
 
 export const mutations = {
   Save_BarImage(state, barImage) {
-      console.log('mutations barImage',barImage);
-    state.barImage = barImage
+    state.barImage = barImage || 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg'
     if (process.browser) {
-      localStorage.setItem('setting-barImage', barImage)
+      localStorage.setItem('setting-barImage', barImage ||
+      'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg')
     }else{
         this.$cookies.set('setting-barImage', barImage)
     }
   },
-  Save_Mode(state, mode) {
-    console.log('mutations mode',mode);
-    state.mode = mode
+  Save_ShowImage(state, showImage) {
+    state.showImage = showImage || true
     if (process.browser) {
-      localStorage.setItem('setting-mode', mode)
+      localStorage.setItem('setting-showImage', showImage || true)
+    }else{
+        this.$cookies.set('setting-showImage', showImage)
+    }
+  },
+  Save_Mode(state, mode) {
+    state.mode = mode || true
+    if (process.browser) {
+      localStorage.setItem('setting-mode', mode || true)
     }else{
         this.$cookies.set('setting-mode', mode)
     }
   },
   Save_Expand_Sidebar(state, expandSideBar) {
-    console.log('mutations expandSideBar',expandSideBar);
-    state.expandSideBar = expandSideBar
+    state.expandSideBar = expandSideBar || true
     if (process.browser) {
-      localStorage.setItem('setting-expand-sidebar', expandSideBar)
+      localStorage.setItem('setting-expand-sidebar', expandSideBar || true)
     }else{
         this.$cookies.set('setting-expand-sidebar', expandSideBar)
     }
   },
   Save_Color(state, color) {
-    console.log('mutations color',color);
-    state.color = color
+    state.color = color || '#9C27b0'
     if (process.browser) {
-        localStorage.setItem('setting-color', color)
+        localStorage.setItem('setting-color', color || '#9C27b0')
     }else{
         this.$cookies.set('setting-color', color)
     }
@@ -63,19 +69,18 @@ export const mutations = {
 
 export const actions = {
   Save_Color({ commit }, color) {
-    console.log('actions color', color)
     commit('Save_Color', color)
   },
   Save_BarImage({ commit }, barImage) {
-    console.log('actions barImage', barImage)
     commit('Save_BarImage', barImage)
   },
+  Save_ShowImage({ commit }, showImage) {
+    commit('Save_ShowImage', showImage)
+  },
   Save_Mode({ commit }, mode) {
-    console.log('actions Save_Mode', mode)
     commit('Save_Mode', mode)
   },
   Save_Expand_Sidebar({ commit }, expandSideBar) {
-    console.log('actions expandSideBar', expandSideBar)
     commit('Save_Expand_Sidebar', expandSideBar)
   },
   SET_Drawer({ commit }, drawer) {
@@ -85,7 +90,4 @@ export const actions = {
 
 export const getters = {
   settingGetter: state => state,
-  SWITCH_DARK(state) {
-    state.darkMode = !state.darkMode
-  },
 }

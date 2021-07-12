@@ -40,6 +40,7 @@
               :key="col"
               :value="col"
             >
+
               <template #default="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
@@ -51,11 +52,11 @@
               </template>
             </v-item>
           </v-item-group>
-        
-          
-         
+
+
+
           <v-divider class="my-4 secondary" />
-        
+
           <v-row
             align="center"
             no-gutters
@@ -90,7 +91,7 @@
 
             <v-col cols="auto">
               <v-switch
-                v-model="showImg"
+                v-model="showImage"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
@@ -110,7 +111,7 @@
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
-                
+
               />
             </v-col>
           </v-row>
@@ -118,31 +119,42 @@
 
           <strong class="mb-3 d-inline-block">تصاویر</strong>
 
-          <v-item-group
-            v-model="image"
-            class="d-flex justify-space-between mb-3"
-          >
-            <v-item
-              v-for="img in images"
-              :key="img"
-              :value="img"
-              class="mx-1"
-            >
-              <template #default="{ active, toggle }">
-                <v-sheet
-                  :class="active && 'v-settings__item--active'"
-                  class="d-inline-block v-settings__item"
-                  @click="toggle"
+          <v-expand-transition>
+              <v-card
+                v-show="showImage"
+              >
+                <v-item-group
+                  v-model="image"
+                  transition="fade-transition"
+                  class="d-flex justify-space-between mb-3"
                 >
-                  <v-img
-                    :src="img"
-                    height="100"
-                    width="50"
-                  />
-                </v-sheet>
-              </template>
-            </v-item>
-          </v-item-group>
+                  <v-item
+                    v-for="img in images"
+                    :key="img"
+                    :value="img"
+                    class="mx-1"
+                  >
+                    <template #default="{ active, toggle }">
+                      <v-sheet
+                        :class="active && 'v-settings__item--active'"
+                        class="d-inline-block v-settings__item"
+                        @click="toggle"
+                      >
+                        <v-img
+                          :src="img"
+                          height="100"
+                          width="50"
+                        />
+                      </v-sheet>
+                    </template>
+                  </v-item>
+                </v-item-group>
+
+              </v-card>
+          </v-expand-transition>
+
+
+
 
           <v-btn
             block
@@ -175,7 +187,7 @@
             <strong class="mb-3 d-inline-block">تنظیمات قالب پنل مدیریت</strong>
           </div>
 
-         
+
         </v-card-text>
       </v-card>
     </v-menu>
@@ -187,7 +199,7 @@ import {  mapState , mapGetters  } from 'vuex'
 
 export default {
   name: 'DashboardCoreSettings',
- 
+
  data: () => ({
       color: '#E91E63',
       colors: [
@@ -207,14 +219,18 @@ export default {
       ],
       menu: false,
       saveImage: '',
-      showImg: true,
+      showImage: true,
       expandSideBar: true,
       mode:true,
     }),
     computed: {
       ...mapState(['barImage']),
       ...mapGetters({settingGetter: 'setting/settingGetter'}),
-       
+
+      getSetting() {
+        return this.settingGetter
+      }
+
     },
     watch: {
       color (val, oldVal) {
@@ -224,28 +240,14 @@ export default {
         this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
         this.$store.dispatch('setting/Save_Color', val)
       },
-      showImg (val) {
-       
-        if (!val) {
+      showImage (val) {
 
-          this.saveImage = this.barImage
-          this.$store.dispatch('setting/Save_BarImage', '')
-          
-        } else if (this.saveImage) {
+        this.$store.dispatch('setting/Save_ShowImage', val)
 
-          this.$store.dispatch('setting/Save_BarImage', this.saveImage)
-          this.saveImage = ''
-
-        } else {
-        
-          this.$store.dispatch('setting/Save_BarImage', val)
-
-        }
       },
       image (val) {
-      
         this.$store.dispatch('setting/Save_BarImage', val)
-        
+
       },
       expandSideBar(val, oldVal){
          if (val === undefined) {
@@ -254,13 +256,18 @@ export default {
         this.$store.dispatch('setting/Save_Expand_Sidebar', val)
       },
       mode(val){
-        this.$vuetify.theme.dark = true 
+        this.$vuetify.theme.dark = val
         this.$store.dispatch('setting/Save_Mode', val)
       }
     },
     mounted(){
-      this.$vuetify.theme.dark = localStorage.getItem('setting-mode')==='true' 
-    },
+      this.expandSideBar = localStorage.getItem('setting-expand-sidebar') === 'true'
+      this.mode = localStorage.getItem('setting-mode')==='true'
+      this.showImage = localStorage.getItem('setting-showImage') === 'true'
+      this.color = localStorage.getItem('setting-color')
+      this.image = localStorage.getItem('setting-barImage')
+      this.$vuetify.theme.dark = localStorage.getItem('setting-mode')==='true'
+    }
   }
 </script>
 
